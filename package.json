@@ -1,0 +1,17 @@
+{
+  "name": "stepcounter_ejs",
+  "version": "1.0.0",
+  "description": "Stepcounter EJS verziója",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "3K",
+  "license": "ISC",
+  "dependencies": {
+    "ejs": "^3.1.10",
+    "express": "^5.2.1",
+    "express-session": "^1.18.2",
+    "mysql": "^2.18.1"
+  }
+}
