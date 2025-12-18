@@ -1,0 +1,18 @@
+header{
+    background-color: #4CAF50;
+    color: white;
+    text-align: center;
+    padding: 10px;
+    line-height: 25px;
+    border-top: 3px solid #2E7D32;
+    border-bottom: 3px solid #2E7D32;
+}
+
+footer{
+    background-color: #4CAF50;
+    color: white;
+    text-align: center;
+    padding: 10px;
+    line-height: 25px;
+    border-top: 3px solid #2E7D32;
+}
