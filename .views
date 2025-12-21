@@ -1,0 +1,10 @@
+CREATE OR REPLACE VIEW statistics AS
+SELECT
+	st.user_id AS uId,
+    (SELECT name FROM users WHERE id = st.user_id) AS name,
+    SUM(steps) AS sumSteps,
+    MAX(steps) AS maxSteps,
+    (SELECT date FROM steps ORDER BY steps DESC LIMIT 1) as maxStepDate,
+    AVG(steps) AS avgSteps
+FROM steps st
+GROUP BY st.user_id

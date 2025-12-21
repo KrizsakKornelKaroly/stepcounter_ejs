@@ -2,10 +2,9 @@ header{
     background-color: #4CAF50;
     color: white;
     text-align: center;
-    padding: 10px;
-    line-height: 25px;
+    padding: 20px;
+    line-height: 35px;
     border-top: 3px solid #2E7D32;
-    border-bottom: 3px solid #2E7D32;
 }
 
 footer{
@@ -15,4 +14,28 @@ footer{
     padding: 10px;
     line-height: 25px;
     border-top: 3px solid #2E7D32;
+}
+
+.navbar{
+    background-color: #4CAF50 !important;
+}
+
+.nav-link{
+    background-color: #2E7D32 !important;
+    border-radius: 15px !important;
+    margin: 0px 10px !important;
+    padding: 15px 20px !important;
+}
+
+.selectorCard{
+    height: 50px;
+}
+
+
+@media screen and (max-width: 992px) {
+    .nav-link{
+        margin-top: 15px !important;
+        margin-bottom: 15px !important;
+        text-align: center !important;
+    }
 }

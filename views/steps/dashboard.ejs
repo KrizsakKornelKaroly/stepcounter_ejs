@@ -1,0 +1,86 @@
+<%- include('../system/header') %>
+
+    <div class="container bg-body-tertiary rounded-3 p-4 mt-4">
+
+        <h2 class="text-center">Dashboard</h2>
+        <div class="col-6 mx-auto">
+            <%- include('../system/message') %>
+        </div>
+
+
+        <h3>Üdvözöllek, <%= session.user.name %>!</h3>
+
+        <div class="row justify-content-center gap-3 mb-3">
+
+            <div class="card col-12 col-lg-5 col-xl-3 my-xl-4 text-center w-33">
+                <div class="card-body">
+                    <h5 class="card-title">Összes lépések száma:</h5>
+                    <p class="card-text"><strong>
+                            <%= statistics.sumSteps ? statistics.sumSteps : 0 %> lépés
+                        </strong></p>
+                </div>
+            </div>
+
+            <div class="card col-12 col-lg-5 col-xl-3 my-xl-4 text-center w-33">
+                <div class="card-body text-center">
+                    <h5 class="card-title">Legaktívabb nap:</h5>
+                    <p class="card-text"><strong>
+                            <%= statistics.maxStepDate ? statistics.maxStepDate : '-' %>
+                        </strong> - <strong>
+                            <%= statistics.maxSteps ? statistics.maxSteps + ' lépés' : '-' %>
+                        </strong></p>
+                </div>
+            </div>
+
+            <div class="card col-12 col-lg-5 col-xl-3 my-xl-4 text-center w-33">
+                <div class="card-body">
+                    <h5 class="card-title">Átlagos napi lépésszám:</h5>
+                    <p class="card-text"><strong>
+                            <%= statistics.avgSteps %> lépés
+                        </strong></p>
+                </div>
+            </div>
+
+        </div>
+
+
+        <div>
+            <h3>Mit szeretnél tenni?</h3>
+            <div class="row justify-content-center my-4 gap-3">
+
+
+                <div class="card col-12 col-lg-5 text-center p-3">
+                    <div class="card-title fs-3">Lépésszámok kezelése</div>
+                    <div class="card-text selectorCard">
+                        Az eddig rögzített lépésszámaid megtekintése, új adatok hozzáadása vagy meglévők szerkesztése.
+                    </div>
+                    <a href="/steps/steps" class="btn btn-outline-success d-block mt-4 justify-content-center fix">Tovább</a>
+                </div>
+                <div class="card col-12 col-lg-5 text-center p-3">
+                    <div class="card-title fs-3">Naptár megtekintése</div>
+                    <div class="card-text selectorCard">
+                        A rögzített lépésszámaid naptár nézetben történő megtekintése.
+                    </div>
+                    <a href="/steps/calendar" class="btn btn-outline-success d-block mt-4 justify-content-center">Tovább</a>
+                </div>
+                <div class="card col-12 col-lg-5 text-center p-3">
+                    <div class="card-title fs-3">Statisztikák megtekintése</div>
+                    <div class="card-text selectorCard">
+                        Részletes statisztikák és grafikonok a lépésszámaidról.
+                    </div>
+                    <a href="/steps/statistics" class="btn btn-outline-success d-block mt-4 justify-content-center">Tovább</a>
+                </div>
+                <div class="card col-12 col-lg-5 text-center p-3">
+                    <div class="card-title fs-3">Profil szerkesztése</div>
+                    <div class="card-text selectorCard">
+                        Személyes adataid módosítása, például név vagy jelszó változtatása.
+                    </div>
+                    <a href="/steps/profile" class="btn btn-outline-success d-block mt-4 justify-content-center">Tovább</a>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+        <%- include('../system/footer') %>

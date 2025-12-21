@@ -12,6 +12,12 @@ app.use(session({ secret: process.env.SESSION_SECRET }));
 const core = require('./modules/core');
 app.use('/', core);
 
+const users = require('./modules/users');
+app.use('/users', users);
+
+const steps = require('./modules/steps');
+app.use('/steps', steps);
+
 app.listen(port, () => {
     console.log(`Server is running on http://localhost:${port}`);
 });

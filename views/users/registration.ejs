@@ -1,0 +1,39 @@
+<%- include('../system/header') %>
+
+    <div class="container text-center bg-body-tertiary rounded-3 py-4 mt-4">
+
+        <h2>Regisztráció</h2>
+        <div class="col-6 mx-auto">
+            <%- include('../system/message') %>
+        </div>
+
+        <form action="/users/registration" method="POST" class="col-10 col-md-6 mx-auto my-4">
+
+            <div class="form-floating mb-3">
+                <input type="text" class="form-control" id="name" placeholder="" name="name" value="<%= session.body ? session.body.name : '' %>">
+                <label for="name">Név</label>
+            </div>
+
+            <div class="form-floating mb-3">
+                <input type="text" class="form-control" id="email" placeholder="" name="email" value="<%= session.body ? session.body.email : '' %>">
+                <label for="email">Email cím</label>
+            </div>
+
+            <div class="form-floating mb-3">
+                <input type="password" class="form-control" id="password" placeholder="" name="password">
+                <label for="password" >Jelszó</label>
+            </div>
+
+            <div class="form-floating mb-3">
+                <input type="password" class="form-control" id="confirm" placeholder="" name="confirm">
+                <label for="confirm" >Jelszó megerősítése</label>
+            </div>
+
+            <input type="submit" value="Regisztráció" name="registration" class="btn btn-outline-success btn-lg mt-3">
+
+        </form>
+
+    </div>
+
+
+    <%- include('../system/footer') %>

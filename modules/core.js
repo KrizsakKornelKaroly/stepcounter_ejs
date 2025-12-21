@@ -4,7 +4,7 @@ const router = express.Router();
 const ejs = require('ejs');
 
 router.get('/', (req, res) => {
-    ejs.renderFile('views/system/index.ejs', { user: req.session.user }, (err, html) => {
+    ejs.renderFile('views/system/index.ejs', { session: req.session }, (err, html) => {
         if (err) {
             console.log(err);
         }
