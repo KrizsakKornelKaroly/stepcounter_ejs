@@ -2,19 +2,19 @@
 
     <div class="container bg-body-tertiary rounded-3 p-4 mt-4">
 
-        <h2 class="text-center">Új lépésadat hozzáadása</h2>
+        <h2 class="text-center">Lépésadat szerkesztése</h2>
         <div class="col-6 mx-auto">
             <%- include('../system/message') %>
         </div>
 
-        <form action="/steps/new" method="POST" class="col-10 col-md-6 mx-auto my-4">
+        <form action="/steps/edit/<%= stepItem.id %>" method="POST" class="col-10 col-md-6 mx-auto my-4">
 
             <div class="form-floating mb-3">
-                <input type="date" class="form-control" id="date" placeholder="" name="date" value="<%= session.body.date ? session.body.date : '' %>" max="<%= moment().format('YYYY-MM-DD') %>">
+                <input type="date" class="form-control" id="date" placeholder="" name="date" value="<%= session.body.date ? session.body.date : moment(stepItem.date).format('YYYY-MM-DD') %>" max="<%= moment().format('YYYY-MM-DD') %>">
                 <label for="date">Dátum</label>
             </div>
             <div class="form-floating">
-                <input type="number" class="form-control" id="steps" placeholder="" name="steps" value="<%= session.body.steps ? session.body.steps : '' %>">
+                <input type="number" class="form-control" id="steps" placeholder="" name="steps" value="<%= session.body.steps ? session.body.steps : stepItem.steps %>">
                 <label for="steps">Lépésszám</label>
             </div>
 

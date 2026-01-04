@@ -74,7 +74,7 @@ router.get('/new', loginCheck, (req, res) => {
             return;
         }
         req.session.error = '';
-        req.session.body = undefined;
+        req.session.body = '';
         res.send(html);
     });
 });
@@ -86,6 +86,12 @@ router.post('/new', loginCheck, (req, res) => {
 
     if (!date || !steps) {
         req.session.error = 'Kérlek, töltsd ki az összes mezőt!';
+        req.session.severity = 'warning';
+        return res.redirect('/steps/new');
+    }
+
+    if (steps < 0) {
+        req.session.error = 'A lépésszám csak pozitív szám lehet!';
         req.session.severity = 'warning';
         return res.redirect('/steps/new');
     }
@@ -167,6 +173,84 @@ router.post('/delete/:id', loginCheck, (req, res) => {
         return res.redirect('/steps/steps');
     });
 });
+
+//Edit step entry
+
+router.get('/edit/:id', loginCheck, (req, res) => {
+
+    req.session.error = '';
+    const stepId = req.params.id;
+
+    db.query('SELECT * FROM steps WHERE id = ? AND user_id = ?', [stepId, req.session.user.id], (err, results) => {
+        if (err) {
+            req.session.error = 'Hiba történt az adatbázis lekérdezése során.';
+            req.session.severity = 'danger';
+            return res.redirect('/steps');
+        }
+
+        ejs.renderFile('views/steps/steps-edit.ejs', { session: req.session, stepItem: results[0], moment: moment }, (err, html) => {
+            if (err) {
+                console.log(err);
+                return;
+            }
+            req.session.error = '';
+            req.session.body = '';
+            res.send(html);
+        });
+    });
+});
+
+
+router.post('/edit/:id', loginCheck, (req, res) => {
+    const stepId = req.params.id;
+    const { date, steps } = req.body;
+    req.session.body = req.body;
+
+    if (!date || !steps) {
+        req.session.error = 'Kérlek, töltsd ki az összes mezőt!';
+        req.session.severity = 'warning';
+        return res.redirect(`/steps/edit/${stepId}`);
+    }
+
+     if (steps < 0) {
+        req.session.error = 'A lépésszám csak pozitív szám lehet!';
+        req.session.severity = 'warning';
+        return res.redirect(`/steps/edit/${stepId}`);
+    }
+
+    db.query('SELECT id, date FROM steps WHERE user_id = ? AND id <> ?', [req.session.user.id, stepId], (err, results) => {
+        if (err) {
+            console.log(err);
+            req.session.error = 'Hiba történt az adatbázis lekérdezése során.';
+            req.session.severity = 'danger';
+            return res.redirect('/steps/new');
+        }
+        const existingDates = results.map(row => moment(row.date).format('YYYY-MM-DD'));
+
+        if (existingDates.includes(date)) {
+            req.session.error = 'Ezen a dátumon már létezik lépésadat!';
+            req.session.severity = 'warning';
+            return res.redirect(`/steps/edit/${stepId}`);
+        }
+
+
+        db.query('UPDATE steps SET date = ?, steps = ? WHERE id = ? AND user_id = ?', [date, steps, stepId, req.session.user.id], (err, result) => {
+            if (err) {
+                console.log(err);
+                req.session.error = 'Hiba történt a művelet során.';
+                req.session.severity = 'danger';
+                return res.redirect(`/steps/edit/${stepId}`);
+            }
+            req.session.error = 'Lépésadat sikeresen frissítve!';
+            req.session.severity = 'success';
+            req.session.body = '';
+            res.redirect('/steps/steps');
+
+        });
+    });
+});
+
+
 
 
 // loginCheck middleware
