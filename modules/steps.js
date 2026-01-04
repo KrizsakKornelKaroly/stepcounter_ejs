@@ -65,6 +65,39 @@ router.get('/steps', loginCheck, (req, res) => {
 
 });
 
+// Calendar route
+
+router.get('/calendar', loginCheck, (req, res) => {
+    db.query('SELECT date, steps FROM steps WHERE user_id = ?', [req.session.user.id], (err, results) => {
+        if (err) {
+            console.log(err);
+            req.session.error = 'Hiba történt az adatbázis lekérdezése során.';
+            req.session.severity = 'danger';
+            return res.redirect('/steps');
+        }
+
+        const stepData = [];
+
+        results.forEach(row => {
+            stepData.push({
+                title: "Lépésszám: " + row.steps,
+                start: moment(row.date).format('YYYY-MM-DD')
+            });
+        });
+
+        req.session.stepData = stepData;
+
+        ejs.renderFile('views/steps/calendar.ejs', { session: req.session }, (err, html) => {
+            if (err) {
+                console.log(err);
+                return;
+            }
+            res.send(html);
+        });
+    });
+});
+
+
 // New step entry 
 
 router.get('/new', loginCheck, (req, res) => {

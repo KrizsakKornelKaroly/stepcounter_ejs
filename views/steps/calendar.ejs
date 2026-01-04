@@ -1,0 +1,41 @@
+<%- include('../system/header') %>
+
+    <div class="container bg-body-tertiary rounded-3 p-4 mt-4">
+
+        <h2 class="text-center">Naptár</h2>
+        <div class="col-6 mx-auto">
+            <%- include('../system/message') %>
+        </div>
+
+        <div id='calendar'></div>
+
+
+        <script>
+            
+
+            document.addEventListener('DOMContentLoaded', function () {
+                var calendarEl = document.getElementById('calendar');
+                var calendar = new FullCalendar.Calendar(calendarEl, {
+                    initialView: 'dayGridMonth',
+                    events: <%- JSON.stringify(session.stepData || []) %>,
+                    locale: 'hu',
+                    buttonText: {
+                        today: 'Ma',
+                        month: 'Hónap',
+                        week: 'Hét',
+                        day: 'Nap',
+                        list: 'Lista',
+                    },
+                    firstDay: 1,
+                    headerToolbar: {
+                        right: 'dayGridMonth,dayGridDay,prev,next'
+                    },
+                });
+                calendar.render();
+            });
+
+        </script>
+
+    </div>
+
+    <%- include('../system/footer') %>
