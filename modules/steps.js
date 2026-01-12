@@ -283,7 +283,41 @@ router.post('/edit/:id', loginCheck, (req, res) => {
     });
 });
 
+//
+router.get('/statistics', loginCheck, (req, res) => {
+    db.query('SELECT date, steps FROM steps WHERE user_id = ? ORDER BY date ASC', [req.session.user.id], (err, results) => {
+        if (err) {
+            console.log(err);
+            req.session.error = 'Hiba történt az adatbázis lekérdezése során.';
+            req.session.severity = 'danger';
+            return res.redirect('/steps');
+        }
+        stepData = results;
 
+        stepData.forEach(row => {
+            row.date = moment(row.date).format('YYYY-MM-DD');
+        });
+
+        now = moment();
+
+        stepDataMonth = stepData.filter(item => moment(item.date).isAfter(now.clone().subtract(1, 'months')));
+        stepDataWeek = stepData.filter(item => moment(item.date).isAfter(now.clone().subtract(7, 'days')));
+        stepDataYear = stepData.filter(item => moment(item.date).isAfter(now.clone().subtract(1, 'years')));
+
+        console.log(stepDataMonth);
+        console.log(stepDataWeek);
+        console.log(stepDataYear);
+
+        ejs.renderFile('views/steps/charts.ejs', { session: req.session, moment: moment, stepData: stepData, stepDataMonth: stepDataMonth, stepDataWeek: stepDataWeek, stepDataYear: stepDataYear }, (err, html) => {
+            if (err) {
+                console.log(err);
+                return;
+            }
+            res.send(html);
+        });
+
+    });
+});
 
 
 // loginCheck middleware

@@ -1,0 +1,44 @@
+<%- include('../system/header') %>
+
+    <div class="container bg-body-tertiary rounded-3 p-4 mt-4">
+
+        <h2 class="text-center">Statisztikák</h2>
+        <div class="col-6 mx-auto">
+            <%- include('../system/message') %>
+        </div>
+
+        <div class="row">
+            <div class="col-12 col-md-6 my-4">
+                <canvas id="stepsWeekly"></canvas>
+            </div>
+            <div class="col-12 col-md-6 my-4">
+                <canvas id="stepsMonthly"></canvas>
+            </div>
+            <div class="col-12 col-md-6 my-4">
+                <canvas id="stepsYearly"></canvas>
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        const stepsWeekly = document.getElementById('stepsWeekly');
+        const stepsMonthly = document.getElementById('stepsMonthly');
+        const stepsYearly = document.getElementById('stepsYearly');
+
+
+        console.log(<%- JSON.stringify(stepDataWeek) %>);
+        const myChart = new Chart(stepsWeekly, {
+            type: 'line',
+            data: {
+                datasets: [{
+                    label: 'Lépésszám',
+                    data: <%- JSON.stringify(stepDataWeek) %>
+                }]
+            }
+        });
+
+
+    </script>
+
+    <%- include('../system/footer') %>

@@ -11,6 +11,7 @@
   "author": "3K",
   "license": "ISC",
   "dependencies": {
+    "chart.js": "^4.5.1",
     "dotenv": "^17.2.3",
     "ejs": "^3.1.10",
     "express": "^5.2.1",
