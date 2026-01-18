@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Gép: 127.0.0.1
--- Létrehozás ideje: 2026. Jan 04. 22:51
+-- Létrehozás ideje: 2026. Jan 18. 17:03
 -- Kiszolgáló verziója: 10.4.32-MariaDB
 -- PHP verzió: 8.2.12
 
@@ -86,7 +86,15 @@ INSERT INTO `steps` (`id`, `user_id`, `date`, `steps`) VALUES
 (28, 1, '2025-12-18', 9345),
 (29, 1, '2025-12-19', 12456),
 (30, 1, '2025-12-20', 8968),
-(32, 1, '2025-12-21', 6556);
+(32, 1, '2025-12-21', 6556),
+(33, 1, '2026-01-12', 6500),
+(34, 1, '2026-01-17', 6500),
+(35, 1, '2026-01-15', 1200),
+(36, 1, '2026-01-18', 13000),
+(38, 1, '2026-01-13', 65),
+(39, 1, '2026-01-16', 650),
+(40, 1, '2026-01-14', 950),
+(41, 1, '2026-01-11', 9780);
 
 -- --------------------------------------------------------
 
@@ -107,7 +115,7 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `name`, `email`, `password`, `created_at`) VALUES
-(1, 'Kis József', 'admin@turr.hu', '703d9bac79dd114e166301432de9a11c28d14318', '2025-12-21 00:00:00'),
+(1, 'Kis József', 'admin@turr.hu', 'fa80a06d86877ce6a28f7ace6280bbf1fa50b295', '2025-12-21 00:00:00'),
 (2, 'TestAccount2', 'test@turr.hu', '703d9bac79dd114e166301432de9a11c28d14318', '2025-12-21 20:57:10');
 
 -- --------------------------------------------------------
@@ -146,7 +154,7 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT a táblához `steps`
 --
 ALTER TABLE `steps`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=33;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=42;
 
 --
 -- AUTO_INCREMENT a táblához `users`
