@@ -1,0 +1,78 @@
+<%- include('../system/header') %>
+
+    <div class="container bg-body-tertiary rounded-3 p-4 mt-4">
+
+        <h2 class="text-center mb-5">Profil - <%= session.user ? session.user.name : '' %>
+        </h2>
+        <div class="col-6 mx-auto">
+            <%- include('../system/message') %>
+        </div>
+
+        <div class="row">
+            <div class="col-12 col-md-6 mx-auto">
+
+                <h3 class="mb-3">Felhasználói adatok</h3>
+
+                <form action="/profile/update" method="POST">
+
+                    <div class="form-floating mb-3">
+                        <input type="text" class="form-control" id="name" placeholder="" name="name"
+                            value="<%= session.user ? session.user.name : '' %>">
+                        <label for="name">Név</label>
+                    </div>
+
+                    <div class="form-floating mb-3">
+                        <input type="email" class="form-control" id="email" placeholder="" name="email"
+                            value="<%= session.user ? session.user.email : '' %>">
+                        <label for="email">Email cím</label>
+                    </div>
+
+                    <div class="form-floating mb-3">
+                        <input type="text" class="form-control" id="regDate" placeholder="" name="regDate"
+                            value="<%= session.user ? moment(session.user.created_at).format('YYYY-MM-DD HH:mm:ss') : '' %>" disabled>
+                        <label for="regDate">Regisztráció dátuma</label>
+                    </div>
+
+                    <button type="submit" class="btn btn-outline-success w-100">Adatok frissítése</button>
+
+                </form>
+
+            </div>
+            <div class="col-12 col-md-6 mx-auto">
+
+                <h3 class="mb-3">Jelszó módosítása</h3>
+
+                <form action="/profile/password" method="POST">
+
+                    <div class="form-floating mb-3">
+                        <input type="password" class="form-control" id="currentPassword" placeholder=""
+                            name="currentPassword">
+                        <label for="currentPassword">Jelenlegi jelszó</label>
+                    </div>
+
+                    <div class="form-floating mb-3">
+                        <input type="password" class="form-control" id="newPassword" placeholder=""
+                            name="newPassword">
+                        <label for="newPassword">Új jelszó</label>
+                    </div>
+
+                    <div class="form-floating mb-3">
+                        <input type="password" class="form-control" id="confirmNewPassword" placeholder=""
+                            name="confirmNewPassword">
+                        <label for="confirmNewPassword">Új jelszó megerősítése</label>
+                    </div>
+
+                    <button type="submit" class="btn btn-outline-success w-100">Jelszó módosítása</button>
+
+                </form>
+
+            </div>
+
+
+        </div>
+    </div>
+
+
+
+
+    <%- include('../system/footer') %>

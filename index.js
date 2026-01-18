@@ -18,6 +18,9 @@ app.use('/users', users);
 const steps = require('./modules/steps');
 app.use('/steps', steps);
 
+const profile = require('./modules/profile');
+app.use('/profile', profile);
+
 app.listen(port, () => {
     console.log(`Server is running on http://localhost:${port}`);
 });

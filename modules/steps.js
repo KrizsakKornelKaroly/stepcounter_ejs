@@ -7,6 +7,9 @@ const moment = require('moment');
 // Dashboard route
 
 router.get('/', loginCheck, (req, res) => {
+    req.session.error = '';
+    req.session.severity = '';
+
     db.query('SELECT * FROM statistics WHERE uId = ?', [req.session.user.id], (err, results) => {
         if (err) {
             console.log(err);
@@ -68,6 +71,9 @@ router.get('/steps', loginCheck, (req, res) => {
 // Calendar route
 
 router.get('/calendar', loginCheck, (req, res) => {
+    req.session.error = '';
+    req.session.severity = '';
+
     db.query('SELECT date, steps FROM steps WHERE user_id = ?', [req.session.user.id], (err, results) => {
         if (err) {
             console.log(err);
@@ -143,26 +149,30 @@ router.post('/new', loginCheck, (req, res) => {
             req.session.severity = 'warning';
             return res.redirect('/steps/new');
         }
+
+        db.query('INSERT INTO steps (user_id, date, steps) VALUES (?, ?, ?)', [req.session.user.id, date, steps], (err, result) => {
+            if (err) {
+                console.log(err);
+                req.session.error = 'Hiba történt az adatbázis lekérdezése során.';
+                req.session.severity = 'danger';
+                return res.redirect('/steps/new');
+            }
+            req.session.error = 'Lépésadat sikeresen hozzáadva!';
+            req.session.severity = 'success';
+            req.session.body = undefined;
+            return res.redirect('/steps/steps');
+        });
     });
 
-    db.query('INSERT INTO steps (user_id, date, steps) VALUES (?, ?, ?)', [req.session.user.id, date, steps], (err, result) => {
-        if (err) {
-            console.log(err);
-            req.session.error = 'Hiba történt az adatbázis lekérdezése során.';
-            req.session.severity = 'danger';
-            return res.redirect('/steps/new');
-        }
-        req.session.error = 'Lépésadat sikeresen hozzáadva!';
-        req.session.severity = 'success';
-        req.session.body = undefined;
-        return res.redirect('/steps/steps');
-    });
+
 });
 
 // Delete step entry
 // SELECT + DELETE user_id feltétel: csak a saját lépésadatokat lehessen törölni és lekérdezni 
 
 router.get('/delete/:id', loginCheck, (req, res) => {
+        req.session.error = '';
+    req.session.severity = '';
     const stepId = req.params.id;
 
     db.query('SELECT * FROM steps WHERE id = ? AND user_id = ?', [stepId, req.session.user.id], (err, results) => {
@@ -212,6 +222,7 @@ router.post('/delete/:id', loginCheck, (req, res) => {
 router.get('/edit/:id', loginCheck, (req, res) => {
 
     req.session.error = '';
+    req.session.severity = '';
     const stepId = req.params.id;
 
     db.query('SELECT * FROM steps WHERE id = ? AND user_id = ?', [stepId, req.session.user.id], (err, results) => {
@@ -245,7 +256,7 @@ router.post('/edit/:id', loginCheck, (req, res) => {
         return res.redirect(`/steps/edit/${stepId}`);
     }
 
-     if (steps < 0) {
+    if (steps < 0) {
         req.session.error = 'A lépésszám csak pozitív szám lehet!';
         req.session.severity = 'warning';
         return res.redirect(`/steps/edit/${stepId}`);
@@ -285,6 +296,9 @@ router.post('/edit/:id', loginCheck, (req, res) => {
 
 //
 router.get('/statistics', loginCheck, (req, res) => {
+    req.session.error = '';
+    req.session.severity = '';
+
     db.query('SELECT date, steps FROM steps WHERE user_id = ? ORDER BY date ASC', [req.session.user.id], (err, results) => {
         if (err) {
             console.log(err);
@@ -302,7 +316,7 @@ router.get('/statistics', loginCheck, (req, res) => {
 
         stepDataMonth = stepData.filter(item => moment(item.date).isAfter(now.clone().subtract(1, 'months')));
         stepDataWeek = stepData.filter(item => moment(item.date).isAfter(now.clone().subtract(7, 'days')));
-        stepDataYear = stepData.filter(item => moment(item.date).isAfter(now.clone().subtract(1, 'years'))); 
+        stepDataYear = stepData.filter(item => moment(item.date).isAfter(now.clone().subtract(1, 'years')));
 
         ejs.renderFile('views/steps/charts.ejs', { session: req.session, moment: moment, stepData: stepData, stepDataMonth: stepDataMonth, stepDataWeek: stepDataWeek, stepDataYear: stepDataYear }, (err, html) => {
             if (err) {
