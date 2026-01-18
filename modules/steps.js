@@ -302,11 +302,7 @@ router.get('/statistics', loginCheck, (req, res) => {
 
         stepDataMonth = stepData.filter(item => moment(item.date).isAfter(now.clone().subtract(1, 'months')));
         stepDataWeek = stepData.filter(item => moment(item.date).isAfter(now.clone().subtract(7, 'days')));
-        stepDataYear = stepData.filter(item => moment(item.date).isAfter(now.clone().subtract(1, 'years')));
-
-        console.log(stepDataMonth);
-        console.log(stepDataWeek);
-        console.log(stepDataYear);
+        stepDataYear = stepData.filter(item => moment(item.date).isAfter(now.clone().subtract(1, 'years'))); 
 
         ejs.renderFile('views/steps/charts.ejs', { session: req.session, moment: moment, stepData: stepData, stepDataMonth: stepDataMonth, stepDataWeek: stepDataWeek, stepDataYear: stepDataYear }, (err, html) => {
             if (err) {

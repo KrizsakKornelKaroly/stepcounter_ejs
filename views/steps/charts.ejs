@@ -7,14 +7,17 @@
             <%- include('../system/message') %>
         </div>
 
-        <div class="row">
-            <div class="col-12 col-md-6 my-4">
+        <div class="row justify-content-center">
+            <div class="col-12 col-lg-6 my-4 text-center">
+                <h4>Az elmúlt 1 hét</h4>
                 <canvas id="stepsWeekly"></canvas>
             </div>
-            <div class="col-12 col-md-6 my-4">
+            <div class="col-12 col-lg-6 my-4 text-center">
+                <h4>Az elmúlt 1 hónap</h4>
                 <canvas id="stepsMonthly"></canvas>
             </div>
-            <div class="col-12 col-md-6 my-4">
+            <div class="col-12 col-lg-10 my-4 text-center">
+                <h4>Az elmúlt 1 év</h4>
                 <canvas id="stepsYearly"></canvas>
             </div>
         </div>
@@ -26,18 +29,98 @@
         const stepsMonthly = document.getElementById('stepsMonthly');
         const stepsYearly = document.getElementById('stepsYearly');
 
+        const stepDataWeek = <%- JSON.stringify(stepDataWeek) %> || [];
+        const stepDataMonth = <%- JSON.stringify(stepDataMonth) %> || [];
+        const stepDataYear = <%- JSON.stringify(stepDataYear) %> || [];
 
-        console.log(<%- JSON.stringify(stepDataWeek) %>);
-        const myChart = new Chart(stepsWeekly, {
+        const labelsYear = stepDataYear.map(item => item.date);
+        const dataYear = stepDataYear.map(item => item.steps);
+
+        const chartWeek = new Chart(stepsWeekly, {
             type: 'line',
             data: {
+                labels: stepDataWeek.map(item => item.date),
                 datasets: [{
                     label: 'Lépésszám',
-                    data: <%- JSON.stringify(stepDataWeek) %>
+                    data: stepDataWeek.map(item => item.steps),
+                    fill: false,
+                    borderColor: 'rgb(75, 192, 192)',
+                    tension: 0.2
                 }]
+            },
+            options: {
+                responsive: true,
+                scales: {
+                    x: {
+                        display: true,
+                        title: { display: true, text: 'Dátum' }
+                    },
+                    y: {
+                        beginAtZero: true,
+                        title: { display: true, text: 'Lépésszám' }
+                    }
+                }
             }
         });
 
+
+        const chartMonth = new Chart(stepsMonthly, {
+            type: 'line',
+            data: {
+                labels: stepDataMonth.map(item => item.date),
+                datasets: [{
+                    label: 'Lépésszám',
+                    data: stepDataMonth.map(item => item.steps),
+                    fill: false,
+                    borderColor: 'rgb(75, 192, 192)',
+                    tension: 0.2
+                }]
+            },
+            options: {
+                responsive: true,
+                scales: {
+                    x: {
+                        display: true,
+                        title: { display: true, text: 'Dátum' }
+                    },
+                    y: {
+                        beginAtZero: true,
+                        title: { display: true, text: 'Lépésszám' }
+                    }
+                }
+            }
+        });
+
+
+        const chartYear = new Chart(stepsYearly, {
+            type: 'line',
+            data: {
+                labels: stepDataYear.map(item => item.date),
+                datasets: [{
+                    label: 'Lépésszám',
+                    data: stepDataYear.map(item => item.steps),
+                    fill: false,
+                    borderColor: 'rgb(75, 192, 192)',
+                    tension: 0.2
+                }]
+            },
+            options: {
+                responsive: true,
+                scales: {
+                    x: {
+                        display: true,
+                        title: { display: true, text: 'Dátum' }
+                    },
+                    y: {
+                        beginAtZero: true,
+                        title: { display: true, text: 'Lépésszám' }
+                    }
+                }
+            }
+        });
+
+
+        
 
     </script>
 
